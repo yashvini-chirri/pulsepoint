@@ -14,17 +14,4 @@ services:
       - key: NEO4J_PASSWORD
         sync: false
       - key: FRONTEND_ORIGIN
-        fromService:
-          type: web
-          name: pulsepoint-ui
-          property: host
-
-  - type: web
-    name: pulsepoint-ui
-    runtime: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://pulsepoint-api.onrender.com/api
+        sync: false

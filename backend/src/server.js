@@ -8,6 +8,10 @@ const port = Number(process.env.PORT || 4000);
 const driver = process.env.NEO4J_URI && process.env.NEO4J_USERNAME && process.env.NEO4J_PASSWORD
   ? neo4j.driver(process.env.NEO4J_URI, neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD))
   : null;
+const allowedOrigins = String(process.env.FRONTEND_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const resources = {
   members: { label: 'Member', fields: ['name', 'fullName', 'firstName', 'lastName', 'email', 'phone', 'gender', 'dateOfBirth', 'joinDate', 'status'] },
@@ -24,7 +28,12 @@ const relationConfig = {
 };
 const numericFields = new Set(['age', 'price', 'amount', 'duration']);
 
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173' }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS origin is not allowed.'));
+  }
+}));
 app.use(express.json({ limit: '100kb' }));
 
 function requireDriver() {

@@ -73,15 +73,16 @@ The app supports these relationship types from the existing graph: `HAS_PLAN`, `
 
 ## Deploy with Render
 
-The repository includes `render.yaml` for deploying the backend and frontend as separate Render services.
+The repository includes `render.yaml` for deploying the backend as a Render web service. The frontend can be deployed separately on Vercel.
 
 1. In Render, choose **New > Blueprint** and connect `yashvini-chirri/pulsepoint`.
-2. Enter the three secret values requested for the `pulsepoint-api` service:
+2. Enter these values for the `pulsepoint-api` service:
    - `NEO4J_URI`
    - `NEO4J_USERNAME`
    - `NEO4J_PASSWORD`
-3. Render builds and deploys the API and static frontend. The frontend receives the API URL through `VITE_API_URL`; credentials are never included in the frontend build.
-4. If you deploy the services manually instead, set the frontend environment variable `VITE_API_URL` to the public API URL including `/api`, and set the backend `FRONTEND_ORIGIN` to the public frontend URL.
+   - `FRONTEND_ORIGIN` - your Vercel URL, for example `https://pulsepoint.vercel.app`
+3. Render builds and deploys the API. Credentials remain only in Render environment variables.
+4. In Vercel, add the environment variable `VITE_API_URL` with the Render API URL including `/api`, for example `https://pulsepoint-api.onrender.com/api`, then redeploy the frontend.
 
 The first deployment can take a few minutes. The backend health URL will be:
 `https://pulsepoint-api.onrender.com/api/health` (or the custom URL Render assigns).
