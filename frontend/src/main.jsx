@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Activity, ArrowRight, BarChart3, CreditCard, Dumbbell, HeartPulse, LayoutDashboard, Link2, Menu, Plus, Search, ShieldCheck, UserRound, Users, X } from 'lucide-react';
 import './styles.css';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_URL || '/api';
 const sections = [
   ['dashboard', 'Dashboard', LayoutDashboard], ['members', 'Members', Users], ['plans', 'Membership Plans', ShieldCheck],
   ['trainers', 'Trainers', UserRound], ['sessions', 'Workout Sessions', Dumbbell], ['attendance', 'Attendance', Activity],

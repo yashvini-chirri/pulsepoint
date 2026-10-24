@@ -70,3 +70,18 @@ The app supports these relationship types from the existing graph: `HAS_PLAN`, `
 - **Empty tables:** inspect `/api/schema` and the Aura Browser to confirm labels and properties. The app intentionally does not invent or seed records.
 - **PowerShell execution policy:** use `npm.cmd install` / `npm.cmd run dev` if your machine blocks `npm.ps1`.
 - **Before testing:** install Node.js 18 or newer, run the two `npm install` commands above, then use `npm.cmd run build` in `frontend` to verify the production bundle.
+
+## Deploy with Render
+
+The repository includes `render.yaml` for deploying the backend and frontend as separate Render services.
+
+1. In Render, choose **New > Blueprint** and connect `yashvini-chirri/pulsepoint`.
+2. Enter the three secret values requested for the `pulsepoint-api` service:
+   - `NEO4J_URI`
+   - `NEO4J_USERNAME`
+   - `NEO4J_PASSWORD`
+3. Render builds and deploys the API and static frontend. The frontend receives the API URL through `VITE_API_URL`; credentials are never included in the frontend build.
+4. If you deploy the services manually instead, set the frontend environment variable `VITE_API_URL` to the public API URL including `/api`, and set the backend `FRONTEND_ORIGIN` to the public frontend URL.
+
+The first deployment can take a few minutes. The backend health URL will be:
+`https://pulsepoint-api.onrender.com/api/health` (or the custom URL Render assigns).
